@@ -1,3 +1,4 @@
+// 用client_credentials取得access_token
 export async function getAccessToken() {
     const res = await fetch("https://accounts.spotify.com/api/token", {
         method: "POST",
@@ -30,34 +31,11 @@ export async function searchArtists(name: string) {
     const image_url = data.artists.items[0].images[0].url;
     return image_url;
 }
-// 搜尋專輯並回傳專輯ID
-export async function getAlbumsID(name: string) {
+// 用專輯名稱找到專輯名稱、藝術家名稱、專輯封面
+export async function searchAlbums(name: string) {
     const token = await getAccessToken();
-    const buh = await fetch(
-        `https://api.spotify.com/v1/search?type=album&q=${name}`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token.access_token,
-            },
-      
-        }
-    );
-    const data = await buh.json();
-
-    return data.albums.items[0].id;
-}
-
-type Album = {
-    albumName: string;
-    artist: string;
-    cover: string;
-};
-
-export async function getSeveralAlbums(albumIDs: string) {
-    const token = await getAccessToken();
-    const response = await fetch(
-        `https://api.spotify.com/v1/albums/?ids=${albumIDs}`,
+    const res = await fetch(
+        `https://api.spotify.com/v1/search?q=${name}&type=album`,
         {
             method: "GET",
             headers: {
@@ -65,21 +43,9 @@ export async function getSeveralAlbums(albumIDs: string) {
             },
         }
     );
-    const data = await response.json();
-    const array = data.albums;
-    let albums = [] as Album[];
-    // console.log(array);
-    for (let i = 0; i < array.length - 1; i++) {
-        const artistList = array[i].artists;
-        let artist = "";
-        artistList.forEach((element: { name: string }) => {
-            artist += element.name + ", ";
-        });
-        // remove the last comma
-        artist = artist.slice(0, -2);
-        const albumName = array[i].name;
-        const cover = array[i].images[0].url;
-        albums.push({ albumName, artist, cover });
-    }
-    return albums;
+    const data = await res.json();
+    const albumName = data.albums.items[0].name;
+    const artist = data.albums.items[0].artists[0].name;
+    const cover = data.albums.items[0].images[0].url;
+    return { albumName, artist, cover };
 }

@@ -10,21 +10,26 @@ export default async function PopularArtists() {
         .from("weeklyTopData")
         .select("artists");
 
-    const imgs = [] as string[];
-    for (let i = 0; weeklyTopData && i < weeklyTopData.length; i++) {
-        const result = await searchArtists(weeklyTopData[i]?.artists);
-        imgs.push(result);
-    }
+    const searchMultipleAlbums = async (albums: string[]) => {
+        const serachPromises = albums.map((name) => searchArtists(name));
+        const result = await Promise.all(serachPromises);
+        return result;
+    };
+
+    const artists = weeklyTopData?.map((o) => o.artists) || [];
+    const data = await searchMultipleAlbums(artists);
 
     return (
         <div>
-            <h1 className="font-bold ml-4 mb-2 text-3xl select-none">Popular artist</h1>
+            <h1 className="font-bold ml-4 mb-2 text-3xl select-none">
+                Popular artist
+            </h1>
             <div className="flex select-none w-scrren overflow-hidden flex-wrap ">
                 {weeklyTopData?.map((artist) => (
                     <RoundedCard
                         key={weeklyTopData.indexOf(artist)}
                         name={artist.artists}
-                        image={imgs[weeklyTopData.indexOf(artist)]}
+                        image={data[weeklyTopData.indexOf(artist)]}
                         type="artist"
                     />
                 ))}

@@ -1,7 +1,6 @@
-import { getAlbumsID, getSeveralAlbums } from "@/spotify-API/spotify";
+import { searchAlbums } from "@/spotify-API/spotify";
 import { createClient } from "@/utils/supabase/server";
 import SquareCard from "./SquareCard";
-
 export default async function PopularAlbums() {
     const supabase = createClient();
 
@@ -9,13 +8,15 @@ export default async function PopularAlbums() {
         .from("weeklyTopData")
         .select("albums");
     // 獲取每周受歡迎的十個專輯的ID
-    let ids: string = "";
-    for (let i = 0; weeklyTopData && i < weeklyTopData.length; i++) {
-        const result = await getAlbumsID(weeklyTopData[i]?.albums);
-        ids += result + ",";
-    }
-    // 獲取每周受歡迎的十個專輯的封面
-    const data = await getSeveralAlbums(ids);
+    const searchMultipleAlbums = async (albums: string[]) => {
+        const serachPromises = albums.map((name) => searchAlbums(name));
+        const result = await Promise.all(serachPromises);
+
+        return result;
+    };
+
+    const albumNames = weeklyTopData?.map((o) => o.albums) || [];
+    const data = await searchMultipleAlbums(albumNames);
 
     return (
         <div>
