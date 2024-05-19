@@ -1,5 +1,5 @@
 import RoundedCard from "@/components/RoundedCard";
-import { searchArtists } from "@/spotify-API/spotify";
+import { searchArtists } from "@/apis/spotify";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function PopularArtists() {

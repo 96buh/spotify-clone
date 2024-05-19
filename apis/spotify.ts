@@ -19,7 +19,7 @@ export async function getAccessToken() {
 export async function searchArtists(name: string) {
     const token = await getAccessToken();
     const buh = await fetch(
-        `https://api.spotify.com/v1/search?q=${name}&type=artist`,
+        `https://api.spotify.com/v1/search?q=${name}&type=artist&market=US&limit=1`,
         {
             method: "GET",
             headers: {
@@ -28,6 +28,7 @@ export async function searchArtists(name: string) {
         }
     );
     const data = await buh.json();
+
     const image_url = data.artists.items[0].images[0].url;
     return image_url;
 }
@@ -35,7 +36,7 @@ export async function searchArtists(name: string) {
 export async function searchAlbums(name: string) {
     const token = await getAccessToken();
     const res = await fetch(
-        `https://api.spotify.com/v1/search?q=${name}&type=album`,
+        `https://api.spotify.com/v1/search?q=${name}&type=album&market=US&limit=1`,
         {
             method: "GET",
             headers: {
@@ -44,8 +45,14 @@ export async function searchAlbums(name: string) {
         }
     );
     const data = await res.json();
+
     const albumName = data.albums.items[0].name;
-    const artist = data.albums.items[0].artists[0].name;
+    let artist = "";
+    data.albums.items[0].artists.forEach(
+        (a: { name: string }) => (artist += a.name + ", ")
+    );
+    artist = artist.slice(0, -2);
+
     const cover = data.albums.items[0].images[0].url;
     return { albumName, artist, cover };
 }

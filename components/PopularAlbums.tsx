@@ -1,4 +1,4 @@
-import { searchAlbums } from "@/spotify-API/spotify";
+import { searchAlbums } from "@/apis/spotify";
 import { createClient } from "@/utils/supabase/server";
 import SquareCard from "./SquareCard";
 export default async function PopularAlbums() {
