@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 
 interface YouTubePlayerProps {
@@ -20,8 +19,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
             const tag = document.createElement("script");
             tag.src = "https://www.youtube.com/iframe_api";
             const firstScriptTag = document.getElementsByTagName("script")[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+            if (firstScriptTag?.parentNode) {
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            }
             // 创建一个全局变量以便 YouTube API 调用
             (window as any).onYouTubeIframeAPIReady = initializePlayer;
         }
