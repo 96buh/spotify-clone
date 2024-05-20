@@ -6,7 +6,6 @@ interface YouTubePlayerProps {
     videoId: string;
 }
 
-
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
     const playerRef = useRef<YT.Player | null>(null);
     const iframeRef = useRef<HTMLDivElement>(null);
