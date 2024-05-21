@@ -184,16 +184,39 @@ input[type="range"]::-webkit-slider-runnable-track:hover {
 input[type="range"]::-moz-range-track {
     background: linear-gradient(
         to right,
+        white var(--range-value, 0%),
+        #645f5f var(--range-value, 0%)
+    );
+}
+input[type="range"]::-moz-range-track:hover {
+    background: linear-gradient(
+        to right,
         #1db954 var(--range-value, 0%),
         #645f5f var(--range-value, 0%)
     );
+}
+input[type="range"]::-moz-range:hover {
+    background: linear-gradient
+        (
+            to right,
+            #1db953 var(--range-value, 0%),
+            #645f5f var(--range-value, 0%)
+        );
 }
 
 input[type="range"]::-ms-track {
     background: linear-gradient(
         to right,
+        white var(--range-value, 0%),
+        #645f5f var(--range-value, 0%)
+    );
+}
+
+input[type="range"]::-ms-track:hover {
+    background: linear-gradient(
+        to right,
         #1db954 var(--range-value, 0%),
-        #ddd var(--range-value, 0%)
+        #645f5f var(--range-value, 0%)
     );
 }
 

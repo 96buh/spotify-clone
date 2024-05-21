@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
 export default function VolumeSlider() {
     const [volume, setVolume] = useState(50);
@@ -12,12 +13,20 @@ export default function VolumeSlider() {
         }
     }, [volume]);
 
+    function mute() {
+        setVolume(0);
+    }
+
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(Number(e.target.value));
     };
 
     return (
-        <div>
+        <div className="mr-5">
+            <button onClick={mute}>
+                <VolumeUpIcon />
+            </button>
             <input
                 type="range"
                 className="range-slider"
