@@ -70,7 +70,7 @@ input[type="range"] {
     background: #1db954; /* 滑轨背景色 */
     border-radius: 20px;
     outline: none;
-    opacity: 0.7;
+    opacity: 1;
     transition: opacity 0.2s;
     margin: 0; /* 去掉margin */
     padding: 0; /* 去掉padding */
@@ -173,6 +173,19 @@ input[type="range"]::-webkit-slider-runnable-track {
         #645f5f var(--range-value, 0%)
     );
 }
+
+#volumeBtn:hover + input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(
+        to right,
+        #1db954 var(--range-value, 0%),
+        #645f5f var(--range-value, 0%)
+    );
+}
+
+#volumeBtn:hover + input[type="range"]::-webkit-slider-thumb {
+    opacity: 1;
+}
+
 input[type="range"]::-webkit-slider-runnable-track:hover {
     background: linear-gradient(
         to right,

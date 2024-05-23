@@ -6,6 +6,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 export default function VolumeSlider() {
     const [volume, setVolume] = useState(50);
     const sliderRef = useRef<HTMLInputElement>(null);
+    const [preVolume, setPreVolume] = useState(50);
 
     useEffect(() => {
         if (sliderRef.current) {
@@ -14,22 +15,27 @@ export default function VolumeSlider() {
     }, [volume]);
 
     function mute() {
-        setVolume(0);
+        if (volume === 0) {
+            setVolume(preVolume);
+        } else {
+            setPreVolume(volume);
+            setVolume(0);
+        }
     }
-
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(Number(e.target.value));
     };
 
     return (
-        <div className="mr-5">
-            <button onClick={mute}>
+        <div className="mr-5 group">
+            <button onClick={mute} className="mr-1" id="volumeBtn">
                 <VolumeUpIcon />
             </button>
             <input
                 type="range"
-                className="range-slider"
+                id="volumeSlider"
+                className="range-slider ::webkit-slider-runnable-track:hover: bg-spotify"
                 value={volume}
                 min="-1"
                 max="101"

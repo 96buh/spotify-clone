@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 interface YouTubePlayerProps {
     videoId: string;
@@ -68,11 +70,12 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
     return (
         <div>
             <div id="player" ref={iframeRef} style={{ display: "none" }}></div>
-            <button
-                onClick={togglePlayPause}
-                className="bg-spotify rounded-md p-3"
-            >
-                Play
+            <button onClick={togglePlayPause} className="active:scale-[1.1]">
+                {isPlaying ? (
+                    <PauseCircleIcon fontSize="large" />
+                ) : (
+                    <PlayCircleIcon fontSize="large" />
+                )}
             </button>
         </div>
     );
