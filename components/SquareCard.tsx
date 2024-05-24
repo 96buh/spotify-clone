@@ -17,6 +17,7 @@ export default function SquareCard({
 }) {
     return (
         <Link
+            prefetch={false}
             href={`/album/${id}`}
             className="relative group p-3 mt-1 hover:bg-neutral-500/10 transition"
         >

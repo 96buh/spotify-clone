@@ -6,8 +6,13 @@ type AlbumHeaderProps = {
 };
 
 export default async function AlbumHeader({ id }: AlbumHeaderProps) {
-    
     const data = await getAlbum(id);
+    let totalTime = 0;
+    data.tracks.forEach((t) => {
+        totalTime += t.duration;
+    });
+    const hour = Math.floor(totalTime / 1000 / 60 / 60);
+    const mins = Math.floor((totalTime / 1000 / 60 / 60 - hour) * 60);
 
     return (
         // pb-5

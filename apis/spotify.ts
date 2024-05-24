@@ -75,15 +75,6 @@ export async function getAlbum(albumID: string) {
             },
         }
     );
-    if (!res.ok) {
-        console.error(
-            "Failed to fetch album data:",
-            res.status,
-            res.statusText
-        );
-
-        throw new Error("Failed to fetch album data");
-    }
 
     const data = await res.json();
 
