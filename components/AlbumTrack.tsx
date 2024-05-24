@@ -29,7 +29,7 @@ export default function AlbumTrack({
                         {artists.length === 1 ? (
                             <div>
                                 {artists.map(({ name }) => (
-                                    <div>{name}</div>
+                                    <div key={name}>{name}</div>
                                 ))}
                             </div>
                         ) : (
