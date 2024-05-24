@@ -27,6 +27,7 @@ export default async function PopularAlbums() {
                 {data.map((o) => (
                     <SquareCard
                         key={data.indexOf(o)}
+                        id={o.id}
                         name={o.albumName}
                         image={o.cover}
                         description={o.artist}

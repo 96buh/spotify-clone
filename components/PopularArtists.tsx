@@ -28,8 +28,9 @@ export default async function PopularArtists() {
                 {weeklyTopData?.map((artist) => (
                     <RoundedCard
                         key={weeklyTopData.indexOf(artist)}
+                        id={data[weeklyTopData.indexOf(artist)].id}
                         name={artist.artists}
-                        image={data[weeklyTopData.indexOf(artist)]}
+                        image={data[weeklyTopData.indexOf(artist)].image_url}
                         type="artist"
                     />
                 ))}
