@@ -29,8 +29,8 @@ export type AlbumData = {
     totalTracks: number;
     cover: string;
     // 誰出的專輯
-    artist: string;
-
+    artist: { name: string; id: string }[];
+    releaseDate: string;
     // 每首歌曲的名稱、id、時間
     tracks: {
         name: string;

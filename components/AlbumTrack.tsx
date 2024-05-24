@@ -9,7 +9,9 @@ export default function AlbumTrack({
     artists: { name: string; id: string }[];
     duration: number;
 }) {
+    // 計算歌曲時間
     const mins = Math.floor(duration / 1000 / 60);
+    // 讓秒數一定是兩位數
     const secs = Math.floor((duration / 1000 / 60 - mins) * 60)
         .toString()
         .padStart(2, "0");
@@ -17,8 +19,11 @@ export default function AlbumTrack({
     return (
         <div className="flex mx-3 justify-between py-2 hover:bg-neutral-500/10">
             <div className="flex">
-                {/* index */}
-                <div className="mx-4 self-center text-inactive">
+                {/* index 對其第二位數字 */}
+                <div className="mx-4 self-center text-inactive flex items-center">
+                    {index + 1 < 10 ? (
+                        <span className="mr-1">&nbsp;</span>
+                    ) : null}
                     {index + 1}
                 </div>
                 <div className="flex flex-col">

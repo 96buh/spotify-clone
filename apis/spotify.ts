@@ -2,20 +2,24 @@ import type { AlbumData } from "@/lib/types";
 
 // 用client_credentials取得access_token
 export async function getAccessToken() {
-    const res = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body:
-            "grant_type=client_credentials&client_id=" +
-            process.env.SPOTIFY_CLIENT_ID +
-            "&client_secret=" +
-            process.env.SPOTIFY_CLIENT_SECRET,
-    });
-    const data = await res.json();
+    try {
+        const res = await fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body:
+                "grant_type=client_credentials&client_id=" +
+                process.env.SPOTIFY_CLIENT_ID +
+                "&client_secret=" +
+                process.env.SPOTIFY_CLIENT_SECRET,
+        });
+        const data = await res.json();
 
-    return data;
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
 }
 // 用藝術家名字搜尋並回傳藝術家圖片
 export async function searchArtists(name: string) {
@@ -73,18 +77,26 @@ export async function getAlbum(albumID: string) {
             headers: {
                 Authorization: "Bearer " + token.access_token,
             },
+            cache: "no-store",
         }
     );
 
     const data = await res.json();
 
+    const cover = data.images[0].url;
+    let artists: { name: string; id: string }[] = [];
+    data.artists.forEach((a: { name: string; id: string }) => {
+        artists.push({ name: a.name, id: a.id });
+    });
+
     // 專輯名稱, 專輯id, 專輯封面, 專輯單曲總數
     let albumData: AlbumData = {
         id: data.id,
         name: data.name,
-        artist: data.artists[0].name,
-        cover: data.images[0].url,
+        artist: artists,
+        cover: cover,
         totalTracks: data.total_tracks,
+        releaseDate: data.release_date,
         tracks: [],
     };
 
@@ -104,6 +116,42 @@ export async function getAlbum(albumID: string) {
             artists: artist,
         });
     });
-
     return albumData;
+}
+
+export async function getArtistTopTracks(artistID: string) {
+    const token = await getAccessToken();
+    const res = await fetch(
+        `https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=US`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + token.access_token,
+            },
+        }
+    );
+    const data = await res.json();
+    const artist = data.tracks[0].artists[0].name;
+
+    let topTracks: {
+        name: string;
+        id: string;
+        duration_ms: number;
+        cover: string;
+    }[] = [];
+
+    for (let i = 0; i < 5; i++) {
+        const trackName = data.tracks[i].name;
+        const trackID = data.tracks[i].id;
+        const trackTime = data.tracks[i].duration_ms;
+        const trackAlbumCover = data.tracks[i].album.images[0].url;
+        topTracks.push({
+            name: trackName,
+            id: trackID,
+            duration_ms: trackTime,
+            cover: trackAlbumCover,
+        });
+    }
+
+    return { artist: artist, topTracks: topTracks };
 }

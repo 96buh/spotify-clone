@@ -15,7 +15,7 @@ export default function RoundedCard({
     id: string;
 }) {
     return (
-        <Link
+        <a
             href={`/artist/${id}`}
             className="relative group p-3 mt-1 hover:bg-neutral-500/10 transition group"
         >
@@ -31,6 +31,6 @@ export default function RoundedCard({
             <PlayBtn />
             <h2 className="text-white mt-2">{name}</h2>
             <h4 className="text-type">{type}</h4>
-        </Link>
+        </a>
     );
 }
