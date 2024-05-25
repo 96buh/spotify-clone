@@ -13,6 +13,7 @@ export async function getAccessToken() {
                 process.env.SPOTIFY_CLIENT_ID +
                 "&client_secret=" +
                 process.env.SPOTIFY_CLIENT_SECRET,
+            cache: "no-store",
         });
         const data = await res.json();
 
@@ -131,13 +132,14 @@ export async function getArtistTopTracks(artistID: string) {
         }
     );
     const data = await res.json();
-    const artist = data.tracks[0].artists[0].name;
+    const artist = data.tracks[0].artists.find((a: any) => a.id === artistID);
 
     let topTracks: {
         name: string;
         id: string;
         duration_ms: number;
         cover: string;
+        artists: { name: string; id: string }[];
     }[] = [];
 
     for (let i = 0; i < 5; i++) {
@@ -145,13 +147,19 @@ export async function getArtistTopTracks(artistID: string) {
         const trackID = data.tracks[i].id;
         const trackTime = data.tracks[i].duration_ms;
         const trackAlbumCover = data.tracks[i].album.images[0].url;
+        // 每首單曲的藝術家名稱, 藝術家id在一個陣列裡
+        let artists: { name: string; id: string }[] = [];
+        data.tracks[i].artists.forEach((a: { name: string; id: string }) => {
+            artists.push({ name: a.name, id: a.id });
+        });
         topTracks.push({
             name: trackName,
             id: trackID,
             duration_ms: trackTime,
             cover: trackAlbumCover,
+            artists: artists,
         });
     }
 
-    return { artist: artist, topTracks: topTracks };
+    return { artist: artist.name, topTracks: topTracks };
 }

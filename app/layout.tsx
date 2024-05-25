@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import AuthBtns from "@/components/AuthBtns";
 import Player from "@/components/Player";
+import TrackContextProvider from "@/context/player-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,17 +22,19 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div className="flex">
-                    <Sidebar />
-                    <main className="flex flex-col flex-grow mx-1 rounded-md h-screen">
-                        <Header>
-                            <AuthBtns />
-                        </Header>
+                <TrackContextProvider>
+                    <div className="flex">
+                        <Sidebar />
+                        <main className="flex flex-col flex-grow mx-1 rounded-md h-screen">
+                            <Header>
+                                <AuthBtns />
+                            </Header>
 
-                        {children}
-                    </main>
-                </div>
-                <Player />
+                            {children}
+                        </main>
+                    </div>
+                    <Player />
+                </TrackContextProvider>
             </body>
         </html>
     );

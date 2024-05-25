@@ -17,7 +17,7 @@ export default function AlbumTrack({
         .padStart(2, "0");
 
     return (
-        <div className="flex mx-3 justify-between py-2 hover:bg-neutral-500/10">
+        <div className="flex mx-3 justify-between py-2 hover:bg-neutral-500/10 select-none">
             <div className="flex">
                 {/* index 對其第二位數字 */}
                 <div className="mx-4 self-center text-inactive flex items-center">
@@ -31,22 +31,19 @@ export default function AlbumTrack({
                     <div className="text-base">{name}</div>
                     {/* track artists */}
                     <div className="flex text-inactive">
-                        {artists.length === 1 ? (
-                            <div>
-                                {artists.map(({ name }) => (
-                                    <div key={name}>{name}</div>
-                                ))}
+                        {artists.map((artist, index) => (
+                            <div key={index} className="flex">
+                                <a
+                                    href={`/artist/${artist.id}`}
+                                    className="hover:underline"
+                                >
+                                    {artist.name}
+                                </a>
+                                {index === artists.length - 1 ? null : (
+                                    <div className="mr-1">,</div>
+                                )}
                             </div>
-                        ) : (
-                            <div className="flex">
-                                {artists.map(({ name }, i) => (
-                                    <div key={artists[i].id}>
-                                        {name}
-                                        {i === artists.length - 1 ? "" : ","}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                        ))}
                     </div>
                 </div>
             </div>
