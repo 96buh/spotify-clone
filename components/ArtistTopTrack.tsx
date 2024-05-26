@@ -5,11 +5,12 @@ import Image from "next/image";
 
 export default function ArtistTopTrack({
     index,
-    id,
-    name,
-    duration,
-    image,
-    mainArtist,
+    id,   // 歌曲 id
+    name, // 歌曲名稱
+    duration, // 歌曲時間
+    image,   // 歌曲封面
+    mainArtist, // 主要演出者
+    artists,  // 演出者
 }: {
     index: number;
     id: string;
@@ -19,7 +20,7 @@ export default function ArtistTopTrack({
     mainArtist: string;
     artists: { name: string; id: string }[];
 }) {
-    const { currentTrack, setCurrentTrack } = useTrackContext();
+    const { currentTrack, setCurrentTrack, setTrackImage, setTrackName, setArtists } = useTrackContext();
 
     const mins = Math.floor(duration / 1000 / 60);
     const secs = Math.floor((duration / 1000 / 60 - mins) * 60)
@@ -28,10 +29,14 @@ export default function ArtistTopTrack({
 
     const handleClick = async (e: any) => {
         e.preventDefault();
-        const search = `${name} ${mainArtist} audio`;
+        const dudes = artists.map((a) => a.name).join(", ");
+        const search = `${name} ${dudes} audio`;
 
         const res = await fetch(`/api?search=${search}`);
         const data = await res.json();
+        setTrackName(name);
+        setTrackImage(image);
+        setArtists(artists);
         setCurrentTrack(data.videoId);
     };
 

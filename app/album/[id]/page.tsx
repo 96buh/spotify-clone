@@ -8,7 +8,7 @@ export default async function AlbumPage({
 }) {
     const { id } = params;
     return (
-        <div className="py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto">
+        <div className="py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[100px]">
             <AlbumHeader id={id} />
             <TracksContainer id={id} />
         </div>

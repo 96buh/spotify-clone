@@ -13,6 +13,7 @@ export default async function TracksContainer({ id }: { id: string }) {
                     name={track.name}
                     artists={track.artists}
                     duration={track.duration}
+                    cover={data.cover}
                 />
             ))}
         </div>

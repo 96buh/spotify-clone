@@ -3,8 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
-export default function VolumeSlider() {
-    const [volume, setVolume] = useState(50);
+type VolumeSliderProps = {
+    volume: number;
+    setVolume: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export default function VolumeSlider({ volume, setVolume }: VolumeSliderProps) {
     const sliderRef = useRef<HTMLInputElement>(null);
     const [preVolume, setPreVolume] = useState(50);
 

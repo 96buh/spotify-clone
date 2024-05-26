@@ -1,5 +1,6 @@
 import { getAlbum } from "@/apis/spotify";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function AlbumHeader({ id }: { id: string }) {
     const data = await getAlbum(id);
@@ -10,9 +11,12 @@ export default async function AlbumHeader({ id }: { id: string }) {
     });
     const hour = Math.floor(totalTime / 1000 / 60 / 60);
     const mins = Math.floor((totalTime / 1000 / 60 / 60 - hour) * 60);
-    const secs = Math.floor(((totalTime / 1000 / 60 / 60 - hour) * 60 - mins) * 60);
+    const secs = Math.floor(
+        ((totalTime / 1000 / 60 / 60 - hour) * 60 - mins) * 60
+    );
     // 如果不到一小時 就顯示幾分幾秒，否則顯示幾小時幾分
-    const duration = hour > 0 ? `${hour} 小時 ${mins} 分鐘` : `${mins} 分鐘 ${secs} 秒`;
+    const duration =
+        hour > 0 ? `${hour} 小時 ${mins} 分鐘` : `${mins} 分鐘 ${secs} 秒`;
 
     return (
         // pb-5
@@ -31,12 +35,12 @@ export default async function AlbumHeader({ id }: { id: string }) {
                 <div className="flex text-sm mb-1 font-bold">
                     {data.artist.map((artist, index) => (
                         <div key={index} className="flex">
-                            <a
+                            <Link
                                 href={`/artist/${artist.id}`}
                                 className="hover:underline"
                             >
                                 {artist.name}
-                            </a>
+                            </Link>
                             {index === data.artist.length - 1 ? null : (
                                 <div className="mx-1">•</div>
                             )}
@@ -45,7 +49,9 @@ export default async function AlbumHeader({ id }: { id: string }) {
                     <div className="mx-1">•</div>
                     <div>{data.releaseDate.split("-")[0]}</div>
                     <div className="mx-1">•</div>
-                    <div>{data.totalTracks} 首歌曲, {duration}</div>
+                    <div>
+                        {data.totalTracks} 首歌曲, {duration}
+                    </div>
                 </div>
             </div>
         </div>

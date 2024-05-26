@@ -16,7 +16,7 @@ export default function SquareCard({
     id: string;
 }) {
     return (
-        <a
+        <Link
             href={`/album/${id}`}
             className="relative group p-3 mt-1 hover:bg-neutral-500/10 transition"
         >
@@ -31,6 +31,6 @@ export default function SquareCard({
             <PlayBtn />
             <h2 className="text-white mt-2 w-[200px] text-wrap">{name}</h2>
             <h4 className="text-type">{description}</h4>
-        </a>
+        </Link>
     );
 }
