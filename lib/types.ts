@@ -41,25 +41,21 @@ export type AlbumData = {
     }[];
 };
 
-
-type TrackWithAlbum = {
-  name: string;
-  id: string;
-  duration: number;
-  addedAt: string;
-  artists: { name: string; id: string }[];
-  album: { name: string; id: string };
+// 用來儲存藝術家陣列中的每個物件的類型
+export type Artist = {
+    name: string;
+    id: string;
 };
 
-type TrackWithoutAlbum = {
-  name: string;
-  id: string;
-  duration: number;
-  addedAt: string;
-  artists: { name: string; id: string }[];
+export type PlaylistTrackData = {
+    index: number;
+    name: string;
+    // track id
+    id: string;
+    cover: string;
+    // 單曲所在專輯封面
+    duration: number;
+    addedAt: string;
+    album: { name: string; id: string };
+    artists: { name: string; id: string }[];
 };
-
-export type Track = TrackWithAlbum | TrackWithoutAlbum;
-export function hasAlbum(track: Track): track is TrackWithAlbum {
-  return (track as TrackWithAlbum).album !== undefined;
-}

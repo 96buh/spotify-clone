@@ -15,7 +15,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div className="flex flex-col flex-grow  ml-1 h-screen max-w-60 select-none">
+        <div className="flex flex-col flex-grow  ml-1 h-screen min-w-[200px] max-w-60 select-none">
             <div className="bg-primary flex flex-col rounded-md px-3 py-2 mt-1">
                 <Link
                     href="/"

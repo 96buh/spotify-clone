@@ -21,7 +21,7 @@ export default async function PlaylistHeader({ id }: { id: string }) {
                 height={200}
             />
             <div className="flex flex-col justify-end">
-                <div className="mt-10 font-bold">專輯</div>
+                <div className="mt-10 font-bold">Playlist</div>
                 <div className="text-[48px] font-bold">
                     {data?.name || "已按讚的歌曲"}
                 </div>
