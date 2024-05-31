@@ -36,13 +36,13 @@ export default async function PopularAlbums() {
                     />
                 ))}
                 
-                <SquareCard
+                {/* <SquareCard
                     key="1"
                     id="1"
                     name="Terry Chao"
                     image={head}
                     description="very strong"
-                />
+                /> */}
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import puppeteer from "puppeteer";
+import { revalidatePath } from "next/cache";
 
 // 爬取每周受歡迎的十個歌曲, 專輯, 藝術家
 export async function GET(request: Request) {
@@ -45,12 +46,57 @@ export async function GET(request: Request) {
     const supabase = createClient();
     const { songs, albums, artists } = albumData;
 
-    for (let i = 0; i < songs.length; i++) {
-        const { error } = await supabase.from("weeklyTopData").update({
-            songs: `${songs[i]}`,
-            albums: `${albums[i]}`,
-            artists: `${artists[i]}`,
-        });
+    if (songs && albums && artists) {
+        for (let i = 0; i < songs.length; i++) {
+            // 先查找現有數據是否存在
+            const { data, error: selectError } = await supabase
+                .from("weeklyTopData")
+                .select("id")
+                .eq("songs", songs[i])
+                .single();
+
+            if (selectError && selectError.code !== "PGRST116") {
+                console.error(`Error fetching data: ${selectError.message}`);
+                continue;
+            }
+
+            if (data) {
+                // 如果存在，則更新數據
+                const { error: updateError } = await supabase
+                    .from("weeklyTopData")
+                    .update({
+                        albums: albums[i],
+                        artists: artists[i],
+                    })
+                    .eq("id", data.id);
+
+                if (updateError) {
+                    console.error(
+                        `Error updating data: ${updateError.message}`
+                    );
+                }
+            } else {
+                // 如果不存在，則插入新數據
+                const { error: insertError } = await supabase
+                    .from("weeklyTopData")
+                    .insert({
+                        songs: songs[i] || null,
+                        albums: albums[i] || null,
+                        artists: artists[i] || null,
+                    });
+
+                if (insertError) {
+                    console.error(
+                        `Error inserting data: ${insertError.message}`
+                    );
+                }
+            }
+        }
+    } else {
+        console.error("Error: Missing data for songs, albums, or artists.");
     }
-    return Response.json({ albumData });
+    revalidatePath("/");
+    return new Response(JSON.stringify(albumData), {
+        headers: { "Content-Type": "application/json" },
+    });
 }
