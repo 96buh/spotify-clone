@@ -1,6 +1,5 @@
 "use client";
 
-import { useTrackContext } from "@/context/player-context";
 import Link from "next/link";
 import { Roboto_Mono } from "next/font/google";
 
@@ -8,60 +7,26 @@ const roboto_mono = Roboto_Mono({
     subsets: ["latin"],
 });
 
-export default function AlbumTrack({
+export default function PlaylistTrack({
     id,
     index,
     name,
     artists,
     duration,
-    cover,
+    album,
+    addedAt,
 }: {
     id: string;
     index: number;
     name: string;
     artists: { name: string; id: string }[];
     duration: number;
-    cover: string;
+    album: { name: string; id: string };
+    addedAt: string;
 }) {
-    const {
-        setSpotifyTrackID,
-        currentTrack,
-        setCurrentTrack,
-        setTrackImage,
-        setTrackName,
-        setArtists,
-    } = useTrackContext();
-
-    // 計算歌曲時間
-    const mins = Math.floor(duration / 1000 / 60);
-    // 讓秒數一定是兩位數
-    const secs = Math.floor((duration / 1000 / 60 - mins) * 60)
-        .toString()
-        .padStart(2, "0");
-
-    const handleClick = async (e: any) => {
-        e.preventDefault();
-        // 把所有該歌曲的藝術家名稱串接起來 作為youtube api搜尋的關鍵字
-        const dudes = artists.map((a) => a.name).join(", ");
-        // youtube api 使用歌曲名稱和藝術家名稱搜尋歌曲, 回傳youtube影片ID
-        const search = `${name} ${dudes} audio`;
-        const res = await fetch(`/api?search=${search}`);
-        const data = await res.json();
-        setTrackName(name);
-        setTrackImage(cover);
-        setArtists(artists);
-        // 這是spotify歌曲ID
-        setSpotifyTrackID(id);
-        // 這是youtube影片ID 更新目前的歌曲
-        setCurrentTrack(data.videoId);
-    };
-
     return (
-        <div
-            className="flex mx-3 justify-between py-2 hover:bg-neutral-500/10 hover:cursor-pointer select-none"
-            onClick={handleClick}
-        >
-            <div className="flex cursor-pointer">
+        <div className="flex mx-3 justify-between py-2 hover:bg-neutral-500/10 hover:cursor-pointer select-none">
+            <div className="flex cursor-pointer w-[30%]">
                 {/* index顯示歌曲順序 (對其第二位數字) */}
                 <div className="self-center mr-4 text-inactive">
                     <div
@@ -95,11 +60,17 @@ export default function AlbumTrack({
                     </div>
                 </div>
             </div>
+            <div className="self-center text-inactive text-sm w-[20%] text-nowrap text-ellipsis overflow-hidden">
+                {album.name}
+            </div>
+            <div className="self-center text-inactive text-sm w-[20%]">
+                {addedAt.split("-")[0]}
+            </div>
             {/* 歌曲持續時間 */}
             <div
-                className={`self-center mr-10 text-sm text-inactive ${roboto_mono.className} cursor-pointer`}
+                className={`self-center mr-10 text-sm text-inactive ${roboto_mono.className} cursor-pointer w-[10%]`}
             >
-                {mins}:{secs}
+                0:00
             </div>
         </div>
     );

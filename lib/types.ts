@@ -40,3 +40,26 @@ export type AlbumData = {
         artists: { name: string; id: string }[];
     }[];
 };
+
+
+type TrackWithAlbum = {
+  name: string;
+  id: string;
+  duration: number;
+  addedAt: string;
+  artists: { name: string; id: string }[];
+  album: { name: string; id: string };
+};
+
+type TrackWithoutAlbum = {
+  name: string;
+  id: string;
+  duration: number;
+  addedAt: string;
+  artists: { name: string; id: string }[];
+};
+
+export type Track = TrackWithAlbum | TrackWithoutAlbum;
+export function hasAlbum(track: Track): track is TrackWithAlbum {
+  return (track as TrackWithAlbum).album !== undefined;
+}
