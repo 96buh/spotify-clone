@@ -3,6 +3,7 @@ import RoundedCard from "@/components/RoundedCard";
 import ProfileDiscography from "@/components/ProfileDiscography";
 import AlbumTrack from "@/components/AlbumTrack";
 import { Suspense } from "react";
+import SearchForm from "@/components/SearchForm";
 export default async function SearchPage({
     searchParams,
 }: {
@@ -17,12 +18,15 @@ export default async function SearchPage({
 
     if (query === "") {
         return (
-            <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto"></div>
+            <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto">
+                <SearchForm />
+            </div>
         );
     }
 
     return (
         <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[100px]">
+            <SearchForm />
             <Suspense>
                 <div className="ml-4 pt-4">
                     <div className="text-2xl font-bold">歌曲</div>
