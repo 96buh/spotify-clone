@@ -1,5 +1,12 @@
 "use server";
-import type { AlbumData } from "@/lib/types";
+import type {
+    AlbumCard,
+    AlbumData,
+    Artist,
+    ArtistCard,
+    Track,
+} from "@/lib/types";
+import { redirect } from "next/navigation";
 
 // 用client_credentials取得access_token
 export async function getAccessToken() {
@@ -153,7 +160,7 @@ export async function getArtistTopTracks(artistID: string) {
         id: string;
         duration_ms: number;
         cover: string;
-        artists: { name: string; id: string }[];
+        artists: Artist[];
     }[] = [];
 
     for (let i = 0; i < 5; i++) {
@@ -302,4 +309,67 @@ export async function getRecommendations(seedTrack: string) {
     };
 
     return recommendations;
+}
+
+export async function search(query: string) {
+    if (query) {
+        const token = await getAccessToken();
+        const res = await fetch(
+            `https://api.spotify.com/v1/search?type=track,album,artist&market=US&q=${query}&limit=10`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + token.access_token,
+                },
+            }
+        );
+        const data = await res.json();
+        // get all album data
+        let albumData: AlbumCard[] = [];
+        let artistData: ArtistCard[] = [];
+        let trackData: {
+            id: string;
+            name: string;
+            artists: Artist[];
+            duration: number;
+            cover: string;
+        }[] = [];
+
+        data.albums.items.forEach((album: any) => {
+            albumData.push({
+                id: album.id,
+                name: album.name,
+                image: album.images[0].url,
+                releaseDate: album.release_date.split("-")[0],
+                type: album.type,
+            });
+        });
+        data.artists.items.forEach((artist: any) => {
+            artistData.push({
+                id: artist.id,
+                name: artist.name,
+                image: artist.images[0]?.url,
+                type: artist.type,
+            });
+        });
+        data.tracks.items.map((track: any, index: number) => {
+            let artists: Artist[] = [];
+            track.artists.forEach((a: Artist) => {
+                artists.push({ name: a.name, id: a.id });
+            });
+            trackData.push({
+                id: track.id,
+                name: track.name,
+                artists: artists,
+                duration: track.duration_ms,
+                cover: track.album.images[0].url,
+            });
+        });
+
+        return {
+            albumData: albumData,
+            artistData: artistData,
+            trackData: trackData,
+        };
+    }
 }

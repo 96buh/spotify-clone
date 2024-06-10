@@ -31,6 +31,7 @@ export default async function PopularArtists() {
                         name={artist.artists}
                         image={data[weeklyTopData.indexOf(artist)].image_url}
                         description="artist"
+                        size="large"
                     />
                 ))}
             </div>

@@ -1,6 +1,4 @@
 "use client";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { usePathname } from "next/navigation";
 
 export default function Header({ children }: { children: React.ReactNode }) {
@@ -8,9 +6,12 @@ export default function Header({ children }: { children: React.ReactNode }) {
     let style;
     if (pathname === "/signup" || pathname === "/login") {
         style = "hidden";
+    } else if (pathname === "/search") {
+        style =
+            "mt-1 flex px-2 py-3 justify-between items-center rounded-tl-md rounded-tr-md select-none bg-primary";
     } else {
         style =
-            "mt-1 flex px-2 py-3 justify-end items-center bg-primary rounded-tl-md rounded-tr-md select-none";
+            "mt-1 flex px-2 py-3 justify-end items-center rounded-tl-md rounded-tr-md select-none bg-primary";
     }
 
     return (

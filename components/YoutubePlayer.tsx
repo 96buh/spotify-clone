@@ -264,7 +264,6 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             setTrackIndex((preIndex) => preIndex - 1);
         }
         console.log("沒有上一首歌了");
-        
     }
 
     return (

@@ -67,3 +67,17 @@ export type Track = {
     id: string;
     cover: string;
 };
+
+export type AlbumCard = {
+    id: string;
+    name: string;
+    image: string;
+    releaseDate: string;
+    type: string;
+};
+export type ArtistCard = {
+    id: string;
+    name: string;
+    image: string;
+    type: string;
+};

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import AuthBtns from "@/components/AuthBtns";
 import Player from "@/components/Player";
 import TrackContextProvider from "@/context/player-context";
+import SearchForm from "@/components/SearchForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
                         <Sidebar />
                         <main className="flex flex-col flex-grow mx-1 rounded-md h-screen">
                             <Header>
+                                <SearchForm/>
                                 <AuthBtns />
                             </Header>
 
