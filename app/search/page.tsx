@@ -44,8 +44,9 @@ export default async function SearchPage({
             <div className="ml-4 pt-4">
                 <div className="text-2xl font-bold">專輯</div>
                 <div className="flex flex-wrap">
-                    {data?.albumData?.map((album) => (
+                    {data?.albumData?.map((album, index) => (
                         <ProfileDiscography
+                            key={index}
                             id={album.id}
                             image={album.image}
                             type={album.type}
@@ -58,12 +59,13 @@ export default async function SearchPage({
             <div className="ml-4 pt-4">
                 <div className="text-2xl font-bold">歌手</div>
                 <div className="flex flex-wrap">
-                    {data?.artistData?.map((artist) => {
+                    {data?.artistData?.map((artist, index) => {
                         if (artist.image === undefined) {
                             return null;
                         } else {
                             return (
                                 <RoundedCard
+                                    key={index}
                                     id={artist.id}
                                     name={artist.name}
                                     image={artist.image}
