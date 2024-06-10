@@ -2,6 +2,7 @@
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { Suspense } from "react";
 
 export default function SearchForm() {
     const pathname = usePathname();
@@ -26,16 +27,18 @@ export default function SearchForm() {
     }
     return (
         <div>
-            <form>
-                <input
-                    type="text"
-                    className="bg-[#727272]/15 shadow-2xl rounded-xl py-2 px-4 w-[350px] mx-2 text-white"
-                    name="query"
-                    onChange={(e) => {
-                        handleSearch(e.target.value);
-                    }}
-                />
-            </form>
+            <Suspense>
+                <form>
+                    <input
+                        type="text"
+                        className="bg-[#727272]/15 shadow-2xl rounded-xl py-2 px-4 w-[350px] mx-2 text-white"
+                        name="query"
+                        onChange={(e) => {
+                            handleSearch(e.target.value);
+                        }}
+                    />
+                </form>
+            </Suspense>
         </div>
     );
 }
