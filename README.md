@@ -17,7 +17,7 @@ SPOTIFY_CLIENT_ID=
 SPOTIFY_CLIENT_SECRET=
 YOUTUBE_API_KEY=
 ```
-把你的[supabase](https://supabase.com/), [vercel](https://vercel.com/), [google](https://console.cloud.google.com/)以及[spotify](https://developer.spotify.com/)中的API KEY輸入進去。並把名字改為`.env.local`
+把你的[supabase](https://supabase.com/), [google](https://console.cloud.google.com/)以及[spotify](https://developer.spotify.com/)中的API KEY輸入進去。並把名字改為`.env.local`
 
 在終端輸入
 ```

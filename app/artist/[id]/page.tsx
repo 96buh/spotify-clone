@@ -2,6 +2,7 @@ import ArtistAlbums from "@/components/ArtistAlbums";
 import ArtistHeader from "@/components/ArtistHeader";
 import { getAccessToken } from "@/apis/spotify";
 import type { Metadata, ResolvingMetadata } from "next";
+import Footer from "@/components/Footer";
 type Props = {
     params: { id: string };
     searchParams: { [key: string]: string | string[] | undefined };
@@ -32,9 +33,10 @@ export default async function ArtistPage({ params, searchParams }: Props) {
     const { id } = params;
 
     return (
-        <div className="py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[200px]">
+        <div className="py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[50px]">
             <ArtistHeader id={id} />
             <ArtistAlbums artistID={id} />
+            <Footer />
         </div>
     );
 }

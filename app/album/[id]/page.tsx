@@ -2,6 +2,7 @@ import AlbumHeader from "@/components/AlbumHeader";
 import TracksContainer from "@/components/TracksContainer";
 import { getAccessToken } from "@/apis/spotify";
 import type { Metadata, ResolvingMetadata } from "next";
+import Footer from "@/components/Footer";
 type Props = {
     params: { id: string };
     searchParams: { [key: string]: string | string[] | undefined };
@@ -38,6 +39,7 @@ export default async function AlbumPage({ params, searchParams }: Props) {
         <div className="py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[100px]">
             <AlbumHeader id={id} />
             <TracksContainer id={id} />
+            <Footer/>
         </div>
     );
 }

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import AuthBtns from "@/components/AuthBtns";
 import Player from "@/components/Player";
 import TrackContextProvider from "@/context/player-context";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -4,6 +4,7 @@ import ProfileDiscography from "@/components/ProfileDiscography";
 import AlbumTrack from "@/components/AlbumTrack";
 import { Suspense } from "react";
 import SearchForm from "@/components/SearchForm";
+import Footer from "@/components/Footer";
 export default async function SearchPage({
     searchParams,
 }: {
@@ -18,14 +19,19 @@ export default async function SearchPage({
 
     if (query === "") {
         return (
-            <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto">
-                <SearchForm />
+            <div className="flex flex-col h-full pb-[50px]">
+                <div className="flex flex-col px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto">
+                    <SearchForm />
+                </div>
+                <div className="mt-auto">
+                    <Footer />
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[100px]">
+        <div className="px-2 py-2 bg-primary flex-grow overflow-hidden hover:overflow-y-auto pb-[50px]">
             <SearchForm />
             <Suspense>
                 <div className="ml-4 pt-4">
@@ -83,6 +89,7 @@ export default async function SearchPage({
                         })}
                     </div>
                 </div>
+                <Footer />
             </Suspense>
         </div>
     );
